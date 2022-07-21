@@ -1,0 +1,16 @@
+select a.company_code,a.founder, count(distinct b.lead_manager_code),
+count(distinct c.senior_manager_code),count(distinct d.employee_code)
+from company a
+left join 
+lead_manager b on 
+a.company_code = b.company_code
+left join 
+manager c on 
+b.lead_manager_code = c.lead_manager_code and a.company_code = c.company_code 
+left join 
+employee d on 
+ c.manager_code = c.manager_code and b.lead_manager_code = d.lead_manager_code 
+ and a.company_code = d.company_code 
+
+group by a.company_code, a.founder 
+order by a.company_code --#substring(a.company_code,1,10)
